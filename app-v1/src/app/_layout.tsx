@@ -1,19 +1,38 @@
-import { Stack } from 'expo-router';
-import { cssInterop } from 'nativewind';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { useEffect } from 'react';
+import { useFonts } from 'expo-font';
+import { TamaguiProvider } from 'tamagui';
+import { useColorScheme } from 'react-native';
+import { SplashScreen, Stack } from 'expo-router';
 
-import '../global.css';
+import config from '../../tamagui.config';
 
-cssInterop(SafeAreaView, { className: 'style' });
+SplashScreen.preventAutoHideAsync()
 
-const RootLayout = () => {
+export default function Layout() {
+  const colorScheme = useColorScheme()
+
+  const [loaded, error] = useFonts({
+    PoppinsRegular: require('../assets/fonts/poppins/Poppins-Regular.ttf'),
+    PoppinsBold: require('../assets/fonts/poppins/Poppins-Bold.ttf'),
+  })
+
+  useEffect(() => {
+    if (loaded || error) {
+      SplashScreen.hideAsync()
+    }
+  }, [loaded, error])
+
+  if (!loaded && !error) {
+    return null
+  }
+
   return (
-    <Stack>
-      <Stack.Screen name='index' options={{ headerShown: false }} />
-      <Stack.Screen name='(auth)' options={{ headerShown: false }} />
-      <Stack.Screen name='logged-in/profile' options={{ headerShown: false }} />
-    </Stack>
+    <TamaguiProvider config={config} defaultTheme={colorScheme === 'dark' ? 'dark' : 'light'}>
+      <Stack>
+        <Stack.Screen name='index' options={{ headerShown: false }} />
+        <Stack.Screen name='(auth)' options={{ headerShown: false }} />
+        <Stack.Screen name='logged-in/profile' options={{ headerShown: false }} />
+      </Stack>
+    </TamaguiProvider>
   );
-};
-
-export default RootLayout;
+}

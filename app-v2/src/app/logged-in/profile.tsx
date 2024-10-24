@@ -1,17 +1,15 @@
 import { TouchableOpacity } from 'react-native';
 import { StyleSheet, Text, View } from 'react-native';
 
-// import { useStore } from '../../stores/profile.store';
+import { useStore } from '../../stores/profile.store';
 
 const Profile = () => {
-  // const { salmon, tuna, addSalmon, addTuna } = useStore();
+  const { salmon, tuna, addSalmon, addTuna } = useStore();
 
   return (
     <View style={styles.page}>
 
-
-    <Text>Yeah</Text>
-      {/* <Text className='text-lg'>
+      <Text className='text-lg'>
         Profile
       </Text>
 
@@ -29,7 +27,7 @@ const Profile = () => {
 
       <TouchableOpacity onPressIn={() => addTuna(1)}>
         <Text>Add Tuna</Text>
-      </TouchableOpacity> */}
+      </TouchableOpacity>
 
     </View>
   );
